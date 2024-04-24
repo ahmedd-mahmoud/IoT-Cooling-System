@@ -1,0 +1,536 @@
+[
+    {
+        "id": "e7de34a5d8a95475",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9521808a625f06dd",
+        "type": "thingspeak42",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "delay": "15",
+        "topic1": "Temperature",
+        "topic2": "Humidity",
+        "topic3": "Fan",
+        "topic4": "",
+        "topic5": "",
+        "topic6": "",
+        "topic7": "",
+        "topic8": "",
+        "endpoint": "https://thingspeak.com",
+        "x": 790,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "66800d5f59a24152",
+        "type": "mqtt in",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "topic": "temp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c125619bf36a8e1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "71c1e2721051bd9a",
+                "9a2629e9990e645f"
+            ]
+        ]
+    },
+    {
+        "id": "9a2629e9990e645f",
+        "type": "ui_gauge",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "12ed5804.30b9e8",
+        "order": 1,
+        "width": 7,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "°C",
+        "format": "{{payload.temperature}}",
+        "min": 0,
+        "max": "70",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 670,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "74141531dd74099d",
+        "type": "mqtt in",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "topic": "hum",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c125619bf36a8e1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 540,
+        "wires": [
+            [
+                "47bcbcdcd523c872",
+                "439b5988503721c6"
+            ]
+        ]
+    },
+    {
+        "id": "47bcbcdcd523c872",
+        "type": "ui_gauge",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "4a6f4a6d00d6be59",
+        "order": 1,
+        "width": 7,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "%",
+        "format": "{{payload.humidity}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 560,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "71c1e2721051bd9a",
+        "type": "change",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 440,
+        "wires": [
+            [
+                "2265571d78276fe1"
+            ]
+        ]
+    },
+    {
+        "id": "439b5988503721c6",
+        "type": "change",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humidity",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 680,
+        "wires": [
+            [
+                "c1c6d27c55ad99ca"
+            ]
+        ]
+    },
+    {
+        "id": "2265571d78276fe1",
+        "type": "ui_chart",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "12ed5804.30b9e8",
+        "order": 5,
+        "width": 7,
+        "height": 5,
+        "label": "Temperature Graph",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 910,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1c6d27c55ad99ca",
+        "type": "ui_chart",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "4a6f4a6d00d6be59",
+        "order": 3,
+        "width": 7,
+        "height": 5,
+        "label": "Humidity Graph",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 780,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7fcd183276c92c1a",
+        "type": "ui_slider",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "label": "Fan Threshold",
+        "tooltip": "",
+        "group": "12ed5804.30b9e8",
+        "order": 3,
+        "width": 7,
+        "height": 1,
+        "passthru": true,
+        "outs": "end",
+        "topic": "Fan",
+        "topicType": "str",
+        "min": 0,
+        "max": "70",
+        "step": 1,
+        "className": "",
+        "x": 240,
+        "y": 800,
+        "wires": [
+            [
+                "9521808a625f06dd"
+            ]
+        ]
+    },
+    {
+        "id": "5dc60f7d3b160556",
+        "type": "ui_button",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "12ed5804.30b9e8",
+        "order": 7,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 650,
+        "y": 500,
+        "wires": [
+            [
+                "2265571d78276fe1"
+            ]
+        ]
+    },
+    {
+        "id": "ff35b4abe3683057",
+        "type": "ui_button",
+        "z": "e7de34a5d8a95475",
+        "name": "",
+        "group": "4a6f4a6d00d6be59",
+        "order": 5,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 550,
+        "y": 720,
+        "wires": [
+            [
+                "c1c6d27c55ad99ca"
+            ]
+        ]
+    },
+    {
+        "id": "646c3cb10439e5c6",
+        "type": "remote-access",
+        "z": "e7de34a5d8a95475",
+        "confignode": "bacda5193924b4af",
+        "name": "",
+        "verbose": 0,
+        "x": 900,
+        "y": 240,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "d4dbbeace9e1c905",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "12ed5804.30b9e8",
+        "order": 2,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "35a6b57991075ada",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "12ed5804.30b9e8",
+        "order": 4,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "528ca55356c5d227",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "12ed5804.30b9e8",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b4dc22e0ce3c548f",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "12ed5804.30b9e8",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "ca02d51ac1881532",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "4a6f4a6d00d6be59",
+        "order": 2,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "fca53975eac4a149",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "4a6f4a6d00d6be59",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "d8de6480d1b98a36",
+        "type": "ui_spacer",
+        "z": "e7de34a5d8a95475",
+        "name": "spacer",
+        "group": "4a6f4a6d00d6be59",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "7c125619bf36a8e1",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "1ec4d4cdb4ed402694590af113b150f6.s1.eu.hivemq.cloud",
+        "port": "8883",
+        "tls": "f524dbe0f73c3a62",
+        "clientid": "ESP8266Client-mahran",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "12ed5804.30b9e8",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "1970df39.b46bf1",
+        "order": 1,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4a6f4a6d00d6be59",
+        "type": "ui_group",
+        "name": "Humidity",
+        "tab": "38d5d61b4d1e9b2b",
+        "order": 2,
+        "disp": true,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bacda5193924b4af",
+        "type": "remote-config",
+        "name": "IoT Cooling System",
+        "host": "localhost",
+        "protocol": "http",
+        "port": "1880",
+        "baseurl": "/ui",
+        "instancehash": "toqdpigafo94ge4o2yy9u6jfqo1ll9hon7jlq76cx2vge9crdz2qvwluktp61zja",
+        "server": "nodered04.remote-red.com",
+        "region": "de"
+    },
+    {
+        "id": "f524dbe0f73c3a62",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "isrgrootx1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "1970df39.b46bf1",
+        "type": "ui_tab",
+        "name": "Temperature",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "38d5d61b4d1e9b2b",
+        "type": "ui_tab",
+        "name": "Humidity",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
