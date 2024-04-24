@@ -3,18 +3,23 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <WifiClientSecure.h>
+#include "ThingSpeak.h"
 
-String apiKey = "NMAHB3FL4DO0LQ1W"; //  Enter your Write API key from ThingSpeak
+#define WIFI_SSID "Your Wi-Fi SSID"
+#define WIFI_PASSWORD "Your Wi-Fi Password"
 
-#define WIFI_SSID "Your Wifi SSID"
-#define WIFI_PASSWORD "Your Wifi Password"
-
+//---------Hive MQ Channel Details---------//
 #define mqtt_server "1ec4d4cdb4ed402694590af113b150f6.s1.eu.hivemq.cloud"
 #define mqtt_username "esp8266"
 #define mqtt_password "Esp8266cooling"
 #define mqtt_port 8883
 
-const char *server = "api.thingspeak.com";
+//---------Thingspeak Channel Details---------//
+#define channelNumber 2518317          // Channel ID
+#define readAPIKey "BWQIC1414ORGX997"  // Read API Key
+#define writeAPIKey "3ZVB1MLC9OM7NK0Z" //  Enter your Write API key from ThingSpeak
+#define tempField 1                    // The field you wish to read
+#define humField 2                     // The field you wish to read
 
 #define DHTPIN 2 // pin where the dht11 is connected
 
@@ -112,6 +117,7 @@ void setup()
   Serial.begin(115200);
   delay(10);
   dht.begin();
+  ThingSpeak.begin(thingClient);
 
   Serial.println("Connecting to ");
   Serial.println(WIFI_SSID);
@@ -168,32 +174,22 @@ void loop()
 
   delay(1000);
 
-  if (thingClient.connect(server, 80)) //   "184.106.153.149" or api.thingspeak.com
+  ThingSpeak.setField(tempField, t);
+  ThingSpeak.setField(humField, h);
+
+  int writeResp = ThingSpeak.writeFields(channelNumber, writeAPIKey);
+  // thingspeak needs minimum 15 sec delay between updates
+  delay(15000);
+
+  if (writeResp == 200)
   {
-
-    String postStr = apiKey;
-    postStr += "&field1=";
-    postStr += String(t);
-    postStr += "&field2=";
-    postStr += String(h);
-    postStr += "\r\n\r\n";
-
-    thingClient.print("POST /update HTTP/1.1\n");
-    thingClient.print("Host: api.thingspeak.com\n");
-    thingClient.print("Connection: close\n");
-    thingClient.print("X-THINGSPEAKAPIKEY: " + apiKey + "\n");
-    thingClient.print("Content-Type: application/x-www-form-urlencoded\n");
-    thingClient.print("Content-Length: ");
-    thingClient.print(postStr.length());
-    thingClient.print("\n\n");
-    thingClient.print(postStr);
-
-    Serial.print("Temperature: ");
-    Serial.print(t);
-    Serial.print(" degrees Celcius, Humidity: ");
-    Serial.print(h);
-    Serial.println("%. Send to Thingspeak.");
+    Serial.println("Channel update successful.");
   }
+  else
+  {
+    Serial.println("Problem updating channel. HTTP error code " + String(writeResp));
+  }
+
   thingClient.stop();
 
   Serial.println("Waiting...");
