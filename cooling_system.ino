@@ -20,8 +20,12 @@
 #define writeAPIKey "3ZVB1MLC9OM7NK0Z" //  Enter your Write API key from ThingSpeak
 #define tempField 1                    // The field you wish to read
 #define humField 2                     // The field you wish to read
+#define fanField 3                     // The field you wish to read
+
+int fan_thresh;
 
 #define DHTPIN 2 // pin where the dht11 is connected
+#define FANPIN 4 // pin where the Fan relay is connected
 
 DHT dht(DHTPIN, DHT11);
 
@@ -112,10 +116,25 @@ void publishMsg(const char *topic, String payload)
     Serial.println("Message published [" + String(topic) + "]" + payload);
 }
 
+void startFan(float temp, int threshold)
+{
+  if (temp > threshold)
+  {
+    digitalWrite(FANPIN, LOW);
+    Serial.println("Cooling");
+  }
+  else
+  {
+    digitalWrite(FANPIN, HIGH);
+    Serial.println("Fan is off");
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
   delay(10);
+  pinMode(FANPIN, OUTPUT);
   dht.begin();
   ThingSpeak.begin(thingClient);
 
@@ -173,6 +192,21 @@ void loop()
   publishMsg("hum", hum_message);
 
   delay(1000);
+
+  fan_thresh = ThingSpeak.readLongField(channelNumber, fanField, readAPIKey);
+  int statusCode = ThingSpeak.getLastReadStatus();
+
+  if (statusCode == 200)
+  {
+    Serial.print("Fan Threshold: ");
+    Serial.println(fan_thresh);
+    startFan(t, fan_thresh);
+  }
+  else
+  {
+    Serial.println("Unable to read channel / No internet connection");
+  }
+  delay(100);
 
   ThingSpeak.setField(tempField, t);
   ThingSpeak.setField(humField, h);
