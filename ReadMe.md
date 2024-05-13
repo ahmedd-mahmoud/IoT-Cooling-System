@@ -39,3 +39,7 @@ Before running the project, make sure you have the following:
 3. Monitor the real-time temperature readings on the dashboard.
 4. Set the desired temperature thresholds for automatic cooling control.
 5. Manually control the cooling system using the dashboard controls.
+
+## User Interface
+![image](https://github.com/ahmedd-mahmoud/IoT-Cooling-System/assets/87312437/74973c94-ca63-4f6d-8b4e-0a0460a40f6b)
+
